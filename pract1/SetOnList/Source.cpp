@@ -13,7 +13,6 @@ int main()
     char tem;
     int n, ne = 0;
     std::cout << "A" << "\n";
-    std::cin >> tem;
     for (tem = std::cin.get(); tem !='\n'; tem = std::cin.get())
         a = new Set(tem, a);
     std::cout << "B" << "\n";
