@@ -1,33 +1,25 @@
 #include <iostream>
 #include <time.h>
 
-using std::cin;
 using std::cout;
 using std::rand;
 
-
-bool IsIn(char* set, char node)
+char* GenerateRandomSet()
 {
-	int index;
+	static const char* universe = "abcdefghijklmnopqrstuvwxyz";
+	static const int universeSize = strlen(universe);
 
-	for (index = 0; set[index] != node && set[index] != '\0'; ++index);
-	return set[index] == node;
-}
+	char* result = new char[universeSize + 1];
+	int sizeFact = 0;
+	int word = rand() % (1 << universeSize);
 
-char* GenerateRandomSet(int MaxSize)
-{
-	char* result = new char[MaxSize];
-	char letter;
-	int sizeFact = rand() % MaxSize;
+	for (int i = 0; i < universeSize; ++i)
+		if ((word & (1 << i)) > 0)
+		{
+			result[sizeFact] = universe[i];
+			++sizeFact;
+		}
 
-	for (int i = 0; i < sizeFact; ++i)
-	{
-		result[i + 1] = '\0';
-		do
-			letter = rand() % ('z' - 'a' + 1) + 'a';
-		while (IsIn(result, letter));
-		result[i] = letter;
-	}
 	result[sizeFact] = '\0';
 
 	return result;
@@ -36,37 +28,62 @@ char* GenerateRandomSet(int MaxSize)
 int main()
 {
 	const int SetsExist = 4;
-	const int SetSize = 15;
+	const int SetSize = 27;
 
-	char* sets[SetsExist];
-	char* result;
-	int counter, resultIndex;
+	char* setA, * setB, * setC, * setD;
+	char* result = nullptr;;
+	int resultIndex;
+
+	int executions = 1000000;
 
 	srand(time(nullptr));
-	for (int i = 0; i < SetsExist; i++)
+
+	setA = GenerateRandomSet();
+	cout << "Set A: " << setA << std::endl;
+	setB = GenerateRandomSet();
+	cout << "Set B: " << setB << std::endl;
+	setC = GenerateRandomSet();
+	cout << "Set C: " << setC << std::endl;
+	setD = GenerateRandomSet();
+	cout << "Set D: " << setD << std::endl;
+
+	time_t start = clock();
+	for (int i = 0; i < executions; ++i)
 	{
-		sets[i] = GenerateRandomSet(SetSize);
-		cout << "Set " << (char)('A' + i) << ": " << sets[i] << std::endl;
-	}
-	result = new char[SetSize];
-	resultIndex = 0;
+		//delete[] result;
+		//result = nullptr;
 
-	for (int aIndex = 0; sets[0][aIndex] != '\0'; ++aIndex)
-		if(IsIn(sets[1], sets[0][aIndex]))
-			if(!IsIn(sets[2], sets[0][aIndex]))
-			{
-				result[resultIndex] = sets[0][aIndex];
-				++resultIndex;
-				result[resultIndex] = '\0';
-			}
+		result = new char[SetSize];
+		resultIndex = 0;
 
-	for (int dIndex = 0; sets[3][dIndex] != '\0'; ++dIndex)
-		if(!IsIn(result, sets[3][dIndex]))
+		for (int aIndex = 0; setA[aIndex] != '\0'; ++aIndex)
+			for (int bIndex = 0; setB[bIndex] != '\0'; ++bIndex)
+				if (setA[aIndex] == setB[bIndex])
+				{
+					int cIndex;
+					for (cIndex = 0;  setC[cIndex] != setA[aIndex] && setC[cIndex] != '\0'; ++cIndex);
+					if (setC[cIndex] == '\0')
+					{
+						result[resultIndex] = setA[aIndex];
+						++resultIndex;
+					}
+
+				}
+
+		for (int dIndex = 0; setD[dIndex] != '\0'; ++dIndex)
 		{
-			result[resultIndex] = sets[3][dIndex];
-			++resultIndex;
+			int resIndex;
+			for (resIndex = 0;  resIndex < resultIndex && result[resIndex] != setD[dIndex]; ++resIndex);
+			if (resIndex == resultIndex)
+			{
+				result[resultIndex] = setD[dIndex];
+				++resultIndex;
+			}
 		}
+	}
 	result[resultIndex] = '\0';
+	start = clock() - start;
+	cout << "Time taken: " << start / (float)CLOCKS_PER_SEC << std::endl;
 
 	cout << "Result: " << result << std::endl;
 
