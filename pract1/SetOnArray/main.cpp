@@ -50,8 +50,8 @@ int main()
 	time_t start = clock();
 	for (int i = 0; i < executions; ++i)
 	{
-		//delete[] result;
-		//result = nullptr;
+		delete[] result;
+		result = nullptr;
 
 		result = new char[SetSize];
 		resultIndex = 0;
