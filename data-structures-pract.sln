@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SetOnArray", "pract1\SetOnA
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SetOnList", "pract1\SetOnList\SetOnList.vcxproj", "{A7DE257A-E1DA-41A0-9EBA-493F99AA47CD}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SetOnMachineWord", "pract1\SetOnMachineWord\SetOnMachineWord.vcxproj", "{C3E14272-ABE4-4741-90B5-54A8E1DB23FA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -25,6 +27,14 @@ Global
 		{1E1B94CC-2E63-4494-941C-80D28588ED8B}.Release|x64.Build.0 = Release|x64
 		{1E1B94CC-2E63-4494-941C-80D28588ED8B}.Release|x86.ActiveCfg = Release|Win32
 		{1E1B94CC-2E63-4494-941C-80D28588ED8B}.Release|x86.Build.0 = Release|Win32
+		{C3E14272-ABE4-4741-90B5-54A8E1DB23FA}.Debug|x64.ActiveCfg = Debug|x64
+		{C3E14272-ABE4-4741-90B5-54A8E1DB23FA}.Debug|x64.Build.0 = Debug|x64
+		{C3E14272-ABE4-4741-90B5-54A8E1DB23FA}.Debug|x86.ActiveCfg = Debug|Win32
+		{C3E14272-ABE4-4741-90B5-54A8E1DB23FA}.Debug|x86.Build.0 = Debug|Win32
+		{C3E14272-ABE4-4741-90B5-54A8E1DB23FA}.Release|x64.ActiveCfg = Release|x64
+		{C3E14272-ABE4-4741-90B5-54A8E1DB23FA}.Release|x64.Build.0 = Release|x64
+		{C3E14272-ABE4-4741-90B5-54A8E1DB23FA}.Release|x86.ActiveCfg = Release|Win32
+		{C3E14272-ABE4-4741-90B5-54A8E1DB23FA}.Release|x86.Build.0 = Release|Win32
 		{A7DE257A-E1DA-41A0-9EBA-493F99AA47CD}.Debug|x64.ActiveCfg = Debug|x64
 		{A7DE257A-E1DA-41A0-9EBA-493F99AA47CD}.Debug|x64.Build.0 = Debug|x64
 		{A7DE257A-E1DA-41A0-9EBA-493F99AA47CD}.Debug|x86.ActiveCfg = Debug|Win32
@@ -39,6 +49,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1E1B94CC-2E63-4494-941C-80D28588ED8B} = {10834A8D-6C58-46B4-ABD2-6DF42A6D49FA}
+		{C3E14272-ABE4-4741-90B5-54A8E1DB23FA} = {10834A8D-6C58-46B4-ABD2-6DF42A6D49FA}
 		{A7DE257A-E1DA-41A0-9EBA-493F99AA47CD} = {10834A8D-6C58-46B4-ABD2-6DF42A6D49FA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
