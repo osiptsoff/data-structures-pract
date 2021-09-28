@@ -4,35 +4,9 @@ using std::cout;
 using std::endl;
 using std::rand;
 
-class Set
-{
-	private:
-		static constexpr char universe[] = "abcdefghijklmnopqrstuvwxyz";
-		static constexpr int universeSize = 26;
-		int set;
+int GenerateRandomSet(int size) { return rand() % (1 << size); }
 
-		static int CharToOffset(char letter) { return letter - 'a'; };
-
-	public:
-		Set(int _set) : set(_set) {};
-		Set() : set(0) {};
-		Set(char*);
-		void Print();
-
-		Set operator&(Set right) { return Set(this->set & right.set); };
-		Set operator|(Set right) { return Set(this->set | right.set); };
-		Set operator/(Set);
-};
-
-Set::Set(char* _set)
-{
-	set = 0;
-
-	for (int i = 0; _set[i] != '\0'; i++)
-		set |=  1 << CharToOffset(_set[i]);
-}
-
-void Set::Print()
+void Print(const char* universe, int universeSize, int set)
 {
 	cout << "{ ";
 	for (int i = 0; i < universeSize; i++)
@@ -41,35 +15,36 @@ void Set::Print()
 	cout << "}";
 }
 
-Set Set::operator/(Set right)
-{
-	int binarySum = this->set ^ right.set;
-
-	return Set(binarySum - (binarySum & right.set));
-}
-
-Set GenerateRandomSet() { return Set(rand() % 67108864); }
-
 int main()
 {
+	const char Universe[] = "abcdefghijklmnopqrstuvwxyz";
+	const int UniverseSize = 26;
 	const int SetsExist = 4;
 
-	Set sets[SetsExist];
-	Set result;
+	float clockSum = 0;
+	int executions = 1000000;
+
+	int sets[SetsExist];
+	int result;
 
 	srand(time(NULL));
 
 	for (int i = 0; i < SetsExist; i++)
 	{
-		sets[i] = GenerateRandomSet();
+		sets[i] = GenerateRandomSet(UniverseSize);
 		cout << "Set " << (char)('A' + i) << ": ";
-		sets[i].Print();
+		Print(Universe, UniverseSize, sets[i]);
 		cout << endl;
 	}
 
-	result = ((sets[0] & sets[1]) / sets[2]) | sets[3];
+	clock_t start = clock();
+	for (int i = 0; i < executions; i++)
+		result = ((sets[0] & sets[1]) & ~sets[2]) | sets[3];
+	start = clock() - start;
+
+	cout << "Time taken: " << start / (float)CLOCKS_PER_SEC << endl;
 	cout << "Result: ";
-	result.Print();
+	Print(Universe, UniverseSize, result);;
 
 	return 0;
 }
