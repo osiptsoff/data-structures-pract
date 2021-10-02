@@ -1,3 +1,5 @@
+// Выполнил: Попов Алексей, студент группы 0305, вариант 4
+
 #include <iostream>
 #include <time.h>
 
@@ -40,7 +42,7 @@ char* tostr(int* k, bool* bE)
 }
 int main()
 {
-    int sizea = 0, sizeb = 0, sizec = 0, sized = 0, sizee = 0, shabl = 0;
+    int sizea = 0, sizeb = 0, sizec = 0, sized = 0, sizee = 0;
     char* a, * b, * c, * d, * res;
     bool* bA, * bB, * bC, * bD, * bE;
     srand(time(nullptr));
@@ -52,18 +54,12 @@ int main()
     clock_t start = clock();
     for (int j = 0; j < 1000000; j++)
     {
-        sizee = 0;
         for (int i = 0; i < 26; i++)
-        {
             bE[i] = (bA[i] && bB[i]) && !bC[i] || bD[i];
-
-            if (bE[i])
-                sizee++;
-        }
     }
     start = clock() - start;
     std::cout << "Time taken: " << start / (float)CLOCKS_PER_SEC << "\n";
-    res = tostr(&shabl, bE);
+    res = tostr(&sizee, bE);
     a = tostr(&sizea, bA);
     b = tostr(&sizeb, bB);
     c = tostr(&sizec, bC);

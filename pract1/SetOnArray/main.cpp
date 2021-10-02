@@ -1,8 +1,14 @@
+// Выполнил: Осипцов Никита, студент группы 0305, вариант 4
+
 #include <iostream>
 #include <time.h>
+#include <random>
 
 using std::cout;
 using std::rand;
+
+std::random_device rd;
+std::mt19937 mersenne(rd());
 
 char* GenerateRandomSet()
 {
@@ -11,7 +17,7 @@ char* GenerateRandomSet()
 
 	char* result = new char[universeSize + 1];
 	int sizeFact = 0;
-	int word = rand() % (1 << universeSize);
+	int word = mersenne() % (1 << universeSize);
 
 	for (int i = 0; i < universeSize; ++i)
 		if ((word & (1 << i)) > 0)
@@ -35,8 +41,6 @@ int main()
 	int resultIndex;
 
 	int executions = 1000000;
-
-	srand(time(nullptr));
 
 	setA = GenerateRandomSet();
 	cout << "Set A: " << setA << std::endl;

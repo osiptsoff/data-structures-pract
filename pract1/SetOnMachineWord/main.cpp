@@ -1,10 +1,16 @@
+// Выполнил: Осипцов Никита, студент группы 0305, вариант 4
+
 #include <iostream>
+#include <random>
+#include <time.h>
 
 using std::cout;
 using std::endl;
-using std::rand;
 
-int GenerateRandomSet(int size) { return rand() % (1 << size); }
+std::random_device rd;
+std::mt19937 mersenne(rd());
+
+int GenerateRandomSet(int size) { return mersenne() % (1 << size); }
 
 void Print(const char* universe, int universeSize, int set)
 {
@@ -27,7 +33,7 @@ int main()
 	int sets[SetsExist];
 	int result;
 
-	srand(time(NULL));
+	srand(time(nullptr));
 
 	for (int i = 0; i < SetsExist; i++)
 	{
