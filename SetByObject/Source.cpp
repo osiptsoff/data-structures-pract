@@ -8,19 +8,18 @@ int main()
 {
 	const int setsExist = 4;
 	const int executions = 1000000;
-
-	Set setA, setB, setC, setD, result;
 	float averagePower = 0;
 
 	srand(time(nullptr));
-	setA = Set();
+	Set setA = Set();
 	setA.Print();
-	setB = Set();;
+	Set setB = Set();
 	setB.Print();
-	setC = Set();
+	Set setC = Set();
 	setC.Print();
-	setD = Set();
+	Set setD = Set();
 	setD.Print();
+	Set result;
 	averagePower = (setA.GetPower() + setB.GetPower() + setC.GetPower() + setD.GetPower()) / 4;
 	
 	time_t start = clock();

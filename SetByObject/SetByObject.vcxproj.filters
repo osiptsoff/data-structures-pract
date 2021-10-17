@@ -20,13 +20,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ArrSet.h">
+    <ClInclude Include="Set.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BoolArrSet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Set.h">
+    <ClInclude Include="MachineWordSet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ListSet.h">
