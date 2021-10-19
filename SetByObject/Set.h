@@ -16,7 +16,7 @@ class Set
 		Set(void*) : set(new char[universeSize + 1]), tag('A' + setsExist++), power(0) { set[0] = '\0'; };
 		Set();
 		Set(const Set&);
-		Set(Set&& other) noexcept : set(other.set), tag(other.tag), power(other.power) { other.set = nullptr; }
+		Set(Set&& other) noexcept : set(other.set), tag('A' + setsExist++), power(other.power) { other.set = nullptr; }
 		~Set() { delete[] set; --setsExist; };
 
 		int GetPower() { return power; };

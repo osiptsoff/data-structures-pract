@@ -19,16 +19,19 @@ int main()
 	setC.Print();
 	Set setD = Set();
 	setD.Print();
-	Set result;
-	averagePower = (setA.GetPower() + setB.GetPower() + setC.GetPower() + setD.GetPower()) / 4;
+	Set* result = nullptr;
 	
 	time_t start = clock();
-	for(int i = 0; i < executions; i++)
-		result = ((setA & setB) & ~setC) | setD;
+	for (int i = 0; i < executions; i++) {
+		delete result;
+		result = nullptr;
+		result = new Set(((setA & setB) & ~setC) | setD);
+	}
 	start = clock() - start;
 
+	averagePower = (setA.GetPower() + setB.GetPower() + setC.GetPower() + setD.GetPower() + result->GetPower()) / 5;
 	cout << "\nTime taken: " << (start / (float)CLOCKS_PER_SEC) << "\nAverage power: " << averagePower << "\n";
-	result.Print();
+	result->Print();
 
 	return 0;
 }
