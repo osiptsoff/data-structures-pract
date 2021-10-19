@@ -17,6 +17,7 @@ class Set
 		Set(int);
 		Set() : Set(rand() | (rand() << 15)) { };
 		Set(const Set&);
+		~Set() { setsExist--; };
 
 		int GetPower() { return power; }
 		void Print();
