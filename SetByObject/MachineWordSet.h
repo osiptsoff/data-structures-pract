@@ -45,7 +45,7 @@ Set::Set(const Set& other)
 {
 	this->word = other.word;
 	this->power = other.power;
-	this->tag = other.tag;
+	this->tag = 'A' + setsExist++;
 }
 
 void Set::Print()
