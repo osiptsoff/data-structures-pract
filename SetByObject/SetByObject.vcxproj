@@ -142,7 +142,7 @@
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Set.h" />
+    <ClInclude Include="ArraySet.h" />
     <ClInclude Include="BoolArrSet.h" />
     <ClInclude Include="ListSet.h" />
     <ClInclude Include="MachineWordSet.h" />

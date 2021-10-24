@@ -20,7 +20,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Set.h">
+    <ClInclude Include="ArraySet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BoolArrSet.h">

@@ -13,8 +13,8 @@ class Set
 		char tag;
 		int power;
 	public:
-		Set(void*) : set(new char[universeSize + 1]), tag('A' + setsExist++), power(0) { set[0] = '\0'; };
-		Set();
+		Set() : set(new char[universeSize + 1]), tag('A' + setsExist++), power(0) { set[0] = '\0'; };
+		Set(char);
 		Set(const Set&);
 		Set(Set&& other) noexcept : set(other.set), tag('A' + setsExist++), power(other.power) { other.set = nullptr; }
 		~Set() { delete[] set; --setsExist; };
@@ -33,7 +33,7 @@ const char Set::universe[] = "abcdefghijklmnopqrstuvwxyz";
 const int Set::universeSize = strlen(universe);
 int Set::setsExist = 0;
 
-Set::Set() : Set(nullptr)
+Set::Set(char) : Set()
 {
 	int word = rand() | (rand() << 15);
 
@@ -74,7 +74,7 @@ Set Set::operator|(const Set &other) const
 
 Set Set::operator&(const Set& other) const
 {
-	Set result = Set(nullptr);
+	Set result = Set();
 
 	for (int otherIndex = 0; other.set[otherIndex] != '\0'; ++otherIndex)
 	{
@@ -93,7 +93,7 @@ Set Set::operator&(const Set& other) const
 
 Set Set::operator~() const
 {
-	Set result = Set(nullptr);
+	Set result = Set();
 
 	for (int universeIndex = 0; universeIndex < universeSize; ++universeIndex)
 	{

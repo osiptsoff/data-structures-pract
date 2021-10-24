@@ -1,6 +1,10 @@
 #include <iostream>
 #include <time.h>
-#include "Set.h"
+
+//#include "ArraySet.h"
+#include "MachineWordSet.h"
+//#include "ListSet.h"
+//#include "BoolArrSet.h"
 
 using namespace std;
 
@@ -11,13 +15,13 @@ int main()
 	float averagePower = 0;
 
 	srand(time(nullptr));
-	Set setA = Set();
+	Set setA = Set('A');
 	setA.Print();
-	Set setB = Set();
+	Set setB = Set('B');
 	setB.Print();
-	Set setC = Set();
+	Set setC = Set('C');
 	setC.Print();
-	Set setD = Set();
+	Set setD = Set('D');
 	setD.Print();
 	Set* result = nullptr;
 	
