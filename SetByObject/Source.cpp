@@ -2,8 +2,8 @@
 #include <time.h>
 
 //#include "ArraySet.h"
-#include "MachineWordSet.h"
-//#include "ListSet.h"
+//#include "MachineWordSet.h"
+#include "ListSet.h"
 //#include "BoolArrSet.h"
 
 using namespace std;
