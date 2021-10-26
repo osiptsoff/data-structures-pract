@@ -7,9 +7,27 @@ using std::cout;
 using std::cin;
 
 class El {
+    static const int poolSize = 300;
+    static El* pool;
+
     char e;
     El* next;
 public:
+    static void* operator new(size_t size)
+    {
+        int i;
+        std::bad_alloc exception;
+
+        for (i = 0; i < poolSize && pool[i].e != '!'; i++);
+        if (i != poolSize)
+            return pool + i;
+        else
+            throw exception;
+    }
+
+    static void operator delete(void* ptr) { ((El*)ptr)->e = '!'; }
+
+
     El() : e('!'), next(nullptr) { }
     El(char e, El* n = nullptr) : e(e), next(n) {  }
     ~El() {
@@ -28,6 +46,7 @@ std::ostream& operator << (std::ostream& o, El& S)
     return o;
 }
 
+El* El::pool = new El[poolSize];
 
 class Set
 {
