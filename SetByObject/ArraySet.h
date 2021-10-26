@@ -25,8 +25,8 @@ class Set
 		Set operator|(const Set&) const;
 		Set operator&(const Set&) const;
 		Set operator~() const;
-		Set operator=(const Set&);
-		Set operator=(Set&&) noexcept;
+		Set& operator=(const Set&);
+		Set& operator=(Set&&) noexcept;
 };
 
 const char Set::universe[] = "abcdefghijklmnopqrstuvwxyz";
@@ -110,7 +110,7 @@ Set Set::operator~() const
 	return result;
 }
 
-Set Set::operator=(const Set& other)
+Set& Set::operator=(const Set& other)
 {
 	if (this != &other)
 	{
@@ -121,7 +121,7 @@ Set Set::operator=(const Set& other)
 	return *this;
 }
 
-Set Set::operator=(Set&& other) noexcept
+Set& Set::operator=(Set&& other) noexcept
 {
 	if (this != &other)
 	{
