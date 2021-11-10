@@ -42,9 +42,9 @@ public:
     Set();
     Set(char);
     Set(const Set&);
-    Set(Set&&);
+    Set(Set&&) noexcept;
     Set& operator = (const Set&);
-    Set& operator = (Set&&);
+    Set& operator = (Set&&) noexcept;
     ~Set() {
         delete A; num--;
     }
@@ -80,7 +80,7 @@ Set::Set(const Set& B) : n(B.n), S('A' + num++), A(nullptr)
 
 }
 
-Set::Set(Set&& B) : n(B.n), S('A' + num++), A(B.A)
+Set::Set(Set&& B) noexcept : n(B.n), S('A' + num++), A(B.A)
 {
     B.A = nullptr;
 }
@@ -103,7 +103,7 @@ Set Set::operator & (const Set& B) const
 {
     Set C(*this);
 
-    return C &= B;
+    return std::move(C &= B);
 }
 
 Set& Set::operator |= (const Set& B)
@@ -124,7 +124,7 @@ Set Set::operator | (const Set& B) const
 {
     Set C(*this);
 
-    return C |= B;
+    return std::move(C |= B);
 }
 
 
@@ -158,7 +158,7 @@ Set& Set::operator = (const Set& B)
     return *this;
 }
 
-Set& Set::operator = (Set&& B)
+Set& Set::operator = (Set&& B) noexcept
 {
     this->A = B.A;
     this->n = B.n;
