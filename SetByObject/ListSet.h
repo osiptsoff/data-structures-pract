@@ -9,23 +9,26 @@ using std::cin;
 class El {
     static const int poolSize = 300;
     static El* pool;
+    static int currentPosition;
+    static int markedPosition;
 
     char e;
     El* next;
 public:
     static void* operator new(size_t size)
     {
-        int i;
         std::bad_alloc exception;
 
-        for (i = 0; i < poolSize && pool[i].e != '!'; i++);
-        if (i != poolSize)
-            return pool + i;
+        if (currentPosition != poolSize)
+            return pool + currentPosition++;
         else
             throw exception;
     }
 
-    static void operator delete(void* ptr) { ((El*)ptr)->e = '!'; }
+    static void operator delete(void* ptr) {}
+    static void MarkPoolPosition() { markedPosition = currentPosition; }
+    static void ClearPool() { markedPosition = currentPosition = 0; }
+    static void GoToMarkedPosition() { currentPosition = markedPosition; }
 
 
     El() : e('!'), next(nullptr) { }
@@ -47,6 +50,8 @@ std::ostream& operator << (std::ostream& o, El& S)
 }
 
 El* El::pool = new El[poolSize];
+int El::currentPosition = 0;
+int El::markedPosition = 0;
 
 class Set
 {

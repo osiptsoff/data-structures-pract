@@ -15,6 +15,8 @@ int main()
 	float averagePower = 0;
 
 	srand(time(nullptr));
+	El::ClearPool();
+
 	Set setA = Set('A');
 	setA.Print();
 	Set setB = Set('B');
@@ -23,10 +25,13 @@ int main()
 	setC.Print();
 	Set setD = Set('D');
 	setD.Print();
+	El::MarkPoolPosition();
+
 	Set* result = nullptr;
 	
 	time_t start = clock();
 	for (int i = 0; i < executions; i++) {
+		El::GoToMarkedPosition();
 		delete result;
 		result = nullptr;
 		result = new Set(((setA & setB) & ~setC) | setD);
