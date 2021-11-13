@@ -1,18 +1,18 @@
 #pragma once
 
 class Node {
-    char d;
-    Node* lft;
-    Node* mdl;
-    Node* rgt;
+    char tag;
+    Node* left;
+    Node* middle;
+    Node* right;
 public:
-    Node() :lft(nullptr), rgt(nullptr), mdl(nullptr) {}
+    Node() :left(nullptr), right(nullptr), middle(nullptr) {}
     Node(const Node&) = delete;
     Node& operator = (const Node&) = delete;
     ~Node() {
-        delete lft;
-        delete mdl;
-        delete rgt;
+        delete left;
+        delete middle;
+        delete right;
     }
     friend class Tree;
 };

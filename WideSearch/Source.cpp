@@ -8,6 +8,7 @@ int main()
     srand(time(nullptr));
     setlocale(LC_ALL, "Russian");
     Tr.MakeTree();
+
     if (Tr.exist()) {
         Tr.OutTree();
         std::cout << '\n' << "Обход в ширину: ";

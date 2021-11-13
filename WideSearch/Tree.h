@@ -43,20 +43,20 @@ Node* Tree::MakeNode(int depth)
     int Y = (depth < rand() % 6 + 1) && (num <= 'z');
     if (Y) {
         v = new Node;
-        v->d = num++;
-        v->lft = MakeNode(depth + 1);
-        v->mdl = MakeNode(depth + 1);
-        v->rgt = MakeNode(depth + 1);
+        v->tag = num++;
+        v->left = MakeNode(depth + 1);
+        v->middle = MakeNode(depth + 1);
+        v->right = MakeNode(depth + 1);
     }
     return v;
 }
 
 void Tree::OutNodes(Node* v, int r, int c) {
-    if (r && c && (c < 80)) SCREEN[r - 1][c - 1] = v->d;
+    if (r && c && (c < 80)) SCREEN[r - 1][c - 1] = v->tag;
     if (r < maxrow) {
-        if (v->lft)OutNodes(v->lft, r + 1, c - (offset >> r));
-        if (v->mdl)OutNodes(v->mdl, r + 1, c);
-        if (v->rgt)OutNodes(v->rgt, r + 1, c + (offset >> r));
+        if (v->left)OutNodes(v->left, r + 1, c - (offset >> r));
+        if (v->middle)OutNodes(v->middle, r + 1, c);
+        if (v->right)OutNodes(v->right, r + 1, c + (offset >> r));
     }
 }
 
@@ -81,16 +81,16 @@ void Tree::OutTree() {
 int Tree::BFS() {
     const int MaxQ = 20;
     int count = 0;
-    QUEUE<Node*>Q(MaxQ);
+    Queue<Node*>Q(MaxQ);
     Q.push(root);
     while (!Q.empty())
     {
         Node* v = Q.pop();
-        std::cout << v->d << '_';
+        //std::cout << v->tag << '_';
         count++;
-        if (v->lft)Q.push(v->lft);
-        if (v->mdl)Q.push(v->mdl);
-        if (v->rgt)Q.push(v->rgt);
+        if (v->left)Q.push(v->left);
+        if (v->middle)Q.push(v->middle);
+        if (v->right)Q.push(v->right);
     }
     return count - 1;
 }

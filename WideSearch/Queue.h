@@ -1,10 +1,11 @@
 #pragma once
 
-template <class item> class QUEUE {
+template <class item> class Queue {
     item* Q;
     int h, t, N;
 public:
-    QUEUE(int maxQ) :h(0), t(0), N(maxQ), Q(new item[maxQ + 1]) {}
+    Queue(int maxQ) :h(0), t(0), N(maxQ), Q(new item[maxQ + 1]) {}
+    ~Queue() { delete Q; }
     int empty() const
     {
         return (h % N) == t;
