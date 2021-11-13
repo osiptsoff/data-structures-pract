@@ -1,23 +1,20 @@
 #pragma once
 
-template <class item> class Queue {
-    item* Q;
-    int h, t, N;
+template <class T> class Queue {
+    T* items;
+    int first, last, maxItems;
 public:
-    Queue(int maxQ) :h(0), t(0), N(maxQ), Q(new item[maxQ + 1]) {}
-    ~Queue() { delete Q; }
-    int empty() const
+    Queue(int maxQ) :first(0), last(0), maxItems(maxQ), items(new T[maxQ + 1]) {}
+    ~Queue() { delete items; }
+    int empty() const { return (first % maxItems) == last; }
+    void push(T item)
     {
-        return (h % N) == t;
+        items[last++] = item;
+        last %= maxItems;
     }
-    void push(item ltem)
+    T pop()
     {
-        Q[t++] = ltem;
-        t %= N;
-    }
-    item pop()
-    {
-        h %= N;
-        return Q[h++];
+        first %= maxItems;
+        return items[first++];
     }
 };
