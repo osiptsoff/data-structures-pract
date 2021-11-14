@@ -5,75 +5,76 @@
 #include "Queue.h"
 
 class Tree {
+    static constexpr int maxRow = 10;
+    static constexpr int maxCol = 110;
+    static constexpr int offset = maxCol / 2;
+
     Node* root;
-    char num, maxnum;
-    int maxrow, offset;
-    char** SCREEN;
-    int count;
+    char tag, maxTag;
+    char** Screen;
     void clrscr();
     Node* MakeNode(int depth);
-    void OutNodes(Node* v, int r, int c);
+    void OutNodes(Node*, int, int);
     Tree(const Tree&) = delete;
     Tree(Tree&&) = delete;
     Tree& operator=(const Tree&) const = delete;
     Tree& operator = (Tree&&) const = delete;
 public:
-    Tree(char num, char maxnum, int maxrow);
+    Tree(char, char);
     ~Tree();
     void MakeTree() { root = MakeNode(0); }
     bool exist() { return root != nullptr; }
     int BFS();
     void OutTree();
 };
-Tree::Tree(char nm, char mnm, int mxr) :num(nm), maxnum(mnm), maxrow(mxr), offset(40), root(nullptr),
-SCREEN(new char* [maxrow]) {
-    for (int i = 0; i < maxrow; i++)SCREEN[i] = new char[80];
+Tree::Tree(char _tag, char _maxTag) : tag(_tag), maxTag(_maxTag), root(nullptr), Screen(new char* [maxRow]) {
+    for (int i = 0; i < maxRow; i++)Screen[i] = new char[maxCol];
 }
 
 Tree ::~Tree() {
-    for (int i = 0; i < maxrow; i++) {
-        delete[] SCREEN[i];
+    for (int i = 0; i < maxRow; i++) {
+        delete[] Screen[i];
     }
-    delete[] SCREEN;
+    delete[] Screen;
     delete root;
 }
 Node* Tree::MakeNode(int depth)
 {
-    Node* v = nullptr;
-    int Y = (depth < rand() % 6 + 1) && (num <= 'z');
-    if (Y) {
-        v = new Node;
-        v->tag = num++;
-        v->left = MakeNode(depth + 1);
-        v->middle = MakeNode(depth + 1);
-        v->right = MakeNode(depth + 1);
+    Node* node = nullptr;
+    bool toMake = (depth < rand() % 6 + 1) && (tag <= 'z');
+    if (toMake) {
+        node = new Node;
+        node->tag = tag++;
+        node->left = MakeNode(depth + 1);
+        node->middle = MakeNode(depth + 1);
+        node->right = MakeNode(depth + 1);
     }
-    return v;
+    return node;
 }
 
-void Tree::OutNodes(Node* v, int r, int c) {
-    if (r && c && (c < 80)) SCREEN[r - 1][c - 1] = v->tag;
-    if (r < maxrow) {
-        if (v->left)OutNodes(v->left, r + 1, c - (offset >> r));
-        if (v->middle)OutNodes(v->middle, r + 1, c);
-        if (v->right)OutNodes(v->right, r + 1, c + (offset >> r));
+void Tree::OutNodes(Node* node, int row, int col) {
+    if (row && col && (col < maxCol)) Screen[row - 1][col - 1] = node->tag;
+    if (row < maxRow) {
+        if (node->left)OutNodes(node->left, row + 1, col - (offset >> row));
+        if (node->middle)OutNodes(node->middle, row + 1, col);
+        if (node->right)OutNodes(node->right, row + 1, col + (offset >> row));
     }
 }
 
 void Tree::clrscr()
 {
-    for (int i = 0; i < maxrow; i++) {
-        memset(SCREEN[i], '.', 80);
+    for (int i = 0; i < maxRow; i++) {
+        memset(Screen[i], '.', maxCol);
     }
 }
 
 void Tree::OutTree() {
     clrscr();
     OutNodes(root, 1, offset);
-    for (int i = 0; i < maxrow; i++)
+    for (int i = 0; i < maxRow; i++)
     {
-        SCREEN[i][79] = 0;
-        std::cout << '\n' << SCREEN[i];
+        Screen[i][maxCol - 1] = 0;
+        std::cout << '\n' << Screen[i];
     }
     std::cout << "\n";
 }
@@ -86,7 +87,7 @@ int Tree::BFS() {
     while (!Q.empty())
     {
         Node* v = Q.pop();
-        //std::cout << v->tag << '_';
+        std::cout << v->tag << '_';
         count++;
         if (v->left)Q.push(v->left);
         if (v->middle)Q.push(v->middle);

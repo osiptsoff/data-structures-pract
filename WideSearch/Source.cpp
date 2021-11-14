@@ -4,7 +4,7 @@
 int main()
 {
     int count = 0;
-    Tree Tr('a', 'z', 8);
+    Tree Tr('a', 'z');
     srand(time(nullptr));
     setlocale(LC_ALL, "Russian");
     Tr.MakeTree();
