@@ -13,7 +13,7 @@ int main() { // tried input/output. rewrite
 
 	Graph m(i);
 	srand(time(nullptr));
-	o << Graph(nullptr);
+	o << Graph(10);
 	cout << m;
 	return 0;
 }

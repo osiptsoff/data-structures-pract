@@ -1,10 +1,12 @@
 #pragma once
 #include <iostream>
+#include <iomanip>
 
 class Graph
 {
-	static constexpr int maxVertices = 250;
-	static constexpr int maxMultEdges = 10;
+	static constexpr int maxVertices = 250; // max vertex number gragh can be generated with
+	static constexpr int maxMultEdges = 5; // weight cannot be more then this
+	static constexpr int zeroChance = 3;    // no edge between two vertices wits 1/zeroChance possibility
 
 	int vertexCount;
 	unsigned char** adjMatrix;
@@ -13,10 +15,11 @@ public:
 	Graph(const Graph&) = delete;
 	Graph(Graph&&) = delete;
 	Graph(int vertCount);
-	Graph(void* mark) : Graph(rand() % maxVertices) {};
+	Graph(void*) : Graph(rand() % maxVertices) {};
 	Graph(std::istream&);
 	~Graph() {
-		for (int i = 0; i < vertexCount; ++i) delete[] adjMatrix[i];
+		if(adjMatrix != nullptr)
+			for (int i = 0; i < vertexCount; ++i) delete[] adjMatrix[i];
 		delete[] adjMatrix;
 	}
 
@@ -29,28 +32,19 @@ public:
 			oStream << "Graph is too big\n";
 		else {
 			int wid = 4;
-			oStream.width(wid);
-			oStream << ' ' << ' ';
-			for (int i = 0; i < graph.vertexCount; ++i) {
-				oStream.width(wid);
-				oStream << i;
-			}
+			oStream << std::setw(wid) << ' ' << ' ';
+			for (int i = 0; i < graph.vertexCount; ++i)
+				oStream << std::setw(wid) << i;
 			oStream << std::endl;
-			oStream.width(wid);
-			oStream << ' ' << ' ';
-			for (int i = 0; i < graph.vertexCount; ++i) {
-				oStream.width(wid);
-				oStream << '_';
-			}
+			oStream << std::setw(wid) << ' ' << ' ';
+			for (int i = 0; i < graph.vertexCount; ++i) 
+				oStream << std::setw(wid) << '_';
 			oStream << std::endl;
 
 			for (int i = 0; i < graph.vertexCount; ++i) {
-				oStream.width(wid);
-				oStream << i << '|';
-				for (int j = 0; j < graph.vertexCount; ++j) {
-					oStream.width(wid);
-					oStream << (int)graph.adjMatrix[i][j];
-				}
+				oStream << std::setw(wid) << i << '|';
+				for (int j = 0; j < graph.vertexCount; ++j)
+					oStream << std::setw(wid) << (int)graph.adjMatrix[i][j];
 				oStream << std::endl;
 			}
 		}
@@ -61,7 +55,7 @@ public:
 Graph::Graph(int vertCount) : vertexCount(vertCount), adjMatrix(new unsigned char* [vertCount]) {
 	for (int i = 0; i < vertCount; ++i) {
 		adjMatrix[i] = new unsigned char[vertCount];
-		for (int j = 0; j < vertCount; ++j) adjMatrix[i][j] = rand() % maxMultEdges;
+		for (int j = 0; j < vertCount; ++j) adjMatrix[i][j] =(rand() % zeroChance > 0) ? rand() % maxMultEdges + 1 : 0;
 	}
 }
 
@@ -75,21 +69,18 @@ Graph::Graph(std::istream& iStream) : vertexCount(0),  adjMatrix(nullptr) {
 		for (int i = 0; i < vertexCount; ++i)
 			adjMatrix[i] = new unsigned char[vertexCount];
 
-		for (int i = 0; i < vertexCount && errorCode == 0; ++i)
-			for (int j = 0; j < vertexCount && errorCode == 0; ++j)
+		for (int i = 0; i < vertexCount && !errorCode; ++i)
+			for (int j = 0; j < vertexCount && !errorCode; ++j) {
 				if (!iStream.eof()) {
 					iStream >> buff;
 					if (!iStream.bad() && !iStream.fail())
-						if (buff > maxMultEdges)
-							errorCode = 2; // too big weight
-						else
-							adjMatrix[i][j] = buff;
-					else
-						errorCode = 3; // inappropriate symbol
+						adjMatrix[i][j] = buff;
+					else errorCode = 2; // cannot read next element
 				}
-				else errorCode = 4; // unexpected EOF
+				else errorCode = 3; //unexpected EOF
+			}
 	}
-	else errorCode = 1; // cannot read the vertex count or unexpected EOF
+	else errorCode = 1; // cannot read the vertex count
 
 	if (errorCode != 0)
 		throw errorCode;
