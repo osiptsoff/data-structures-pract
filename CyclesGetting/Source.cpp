@@ -5,15 +5,11 @@
 using namespace std;
 
 int main() { // tried input/output. rewrite
-	ofstream o;
-	ifstream i;
+	ifstream i("i.txt");
 
-	o.open("o.txt", ios::out);
-	i.open("i.txt", ios::in);
-
-	Graph m(i);
 	srand(time(nullptr));
-	o << Graph(10);
-	cout << m;
+	Graph k(10);
+	cout << k;
+	k.FindAllCycles();
 	return 0;
 }
