@@ -7,29 +7,19 @@ using std::endl;
 using std::setw;
 using std::vector;
 
-template<class T> bool find(const vector<T> &vect, T toFind) {
-	for (int vSize = vect.size(), i = 0; i < vSize; ++i)
-		if (vect[i] == toFind)
-			return true;
-	return false;
-}
-
 class Graph
 {
-	static constexpr int maxVertices = 250; // max vertex number gragh can be generated with
-	static constexpr int maxMultEdges = 1; // weight cannot be more then this
-	static constexpr int zeroChance = 50;    // no edge between two vertices wits zeroChance % possibility
+	static constexpr int zeroChance = 75;    // no edge between two vertices wits zeroChance % possibility
 
 	int vertexCount;
 	unsigned char** adjMatrix;
 
-	void GetVertexCycles(int, int, vector<int>&);
+	void GetVertexCycles(int, int, bool*, vector<int>&);
 public:
 	Graph() = delete;
 	Graph(const Graph&) = delete;
 	Graph(Graph&&) = delete;
 	Graph(int);
-	Graph(void*) : Graph(rand() % maxVertices) {};
 	Graph(std::istream&);
 	~Graph() {
 		if(adjMatrix != nullptr)
@@ -69,7 +59,7 @@ public:
 Graph::Graph(int vertCount) : vertexCount(vertCount), adjMatrix(new unsigned char* [vertCount]) {
 	for (int i = 0; i < vertCount; ++i) {
 		adjMatrix[i] = new unsigned char[vertCount];
-		for (int j = 0; j < vertCount; ++j) adjMatrix[i][j] = (rand() % 100 >= zeroChance) ? rand() % maxMultEdges + 1 : 0;
+		for (int j = 0; j < vertCount; ++j) adjMatrix[i][j] = (rand() % 100 >= zeroChance);
 	}
 }
 
@@ -100,7 +90,7 @@ Graph::Graph(std::istream& iStream) : vertexCount(0),  adjMatrix(nullptr) {
 		throw errorCode;
 }
 
-void Graph::GetVertexCycles(int start, int current, vector<int>& stack) {
+void Graph::GetVertexCycles(int start, int current, bool* inStack, vector<int>& stack) {
 	if (start == current && !stack.empty()) {
 		stack.push_back(current);
 		for (int size = stack.size(), i = 0; i < size; ++i)
@@ -110,22 +100,29 @@ void Graph::GetVertexCycles(int start, int current, vector<int>& stack) {
 		return;
 	}
 
-	if(find(stack, current) || current < start)
+	if(inStack[current] || current < start)
 		return;
 
 	stack.push_back(current);
+	inStack[current] = true;
 
 	for (int i = 0; i < vertexCount; ++i)
 		if(adjMatrix[current][i])
-			GetVertexCycles(start, i, stack);
+			GetVertexCycles(start, i, inStack, stack);
 	stack.pop_back();
+	inStack[current] = false;
 }
 
 void Graph::FindAllCycles() {
 	vector<int> stack = {};
+	bool* inStack = new bool[vertexCount];
+	for (int i = 0; i < vertexCount; ++i)
+		inStack[i] = false;
 
 	for (int i = 0; i < vertexCount; ++i) {
-		GetVertexCycles(i, i, stack);
+		GetVertexCycles(i, i, inStack, stack);
 		stack.clear();
 	}
+
+	delete[] inStack;
 }
